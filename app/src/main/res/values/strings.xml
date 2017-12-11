@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MapsCalculateApp</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_location_permission">Location permission</string>
+    <string name="text_location_permission">Please accept request for location permission</string>
+    <string name="ok">ok</string>
+    <string name="title_activity_main">MainActivity</string>
+</resources>
