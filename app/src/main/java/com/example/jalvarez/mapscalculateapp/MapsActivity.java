@@ -3,6 +3,7 @@ package com.example.jalvarez.mapscalculateapp;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -11,6 +12,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -23,12 +27,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private ImageView imgInit;
+    private ImageView imgStop;
+    private TextView area;
+    private TextView perimeter;
     private GoogleMap googleMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
@@ -40,6 +50,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        imgInit = findViewById(R.id.imb_init);
+        imgStop = findViewById(R.id.imb_stop);
+        area = findViewById(R.id.data_area);
+        perimeter = findViewById(R.id.data_perimeter);
+
+        imgInit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startLocationUpdates();
+            }
+        });
+
+        imgStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopLocationUpdates();
+            }
+        });
 
         points = new ArrayList<>();
         createLocationRequest();
@@ -84,6 +112,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     points.add(coordinate);
                     googleMap.addMarker(new MarkerOptions().position(coordinate));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLng(coordinate));
+
+                    PolygonOptions polygonOptions = new PolygonOptions();
+                    polygonOptions.strokeColor(Color.RED);
+                    for (LatLng point : points) {
+                        polygonOptions.add(point);
+                    }
+                    googleMap.addPolygon(polygonOptions);
+
+                    area.setText("Area->" + SphericalUtil.computeArea(points));
+
+                    area.setText("Perimeter->" + SphericalUtil.computeLength(points));
                 }
             }
         };
@@ -93,16 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         startLocationUpdates();
-        /*PolygonOptions polygonOptions = new PolygonOptions();
-        polygonOptions.strokeColor(Color.RED);
-        for (LatLng point : points) {
-            polygonOptions.add(point);
-        }
-        googleMap.addPolygon(polygonOptions);
-        //AREA
-        SphericalUtil.computeArea(new ArrayList<LatLng>());
-        //PERIMETER
-        SphericalUtil.computeLength(new ArrayList<LatLng>());*/
+
     }
 
     @Override
@@ -117,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     protected void createLocationRequest() {
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
+        locationRequest.setInterval(1000);
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,50 +7,104 @@
     android:orientation="vertical"
     tools:context="com.example.jalvarez.mapscalculateapp.MapsActivity">
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp" />
-
-
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/container_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent">
 
+        <ImageView
+            android:id="@+id/imb_init"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_loc_init"
+            app:layout_constraintBottom_toTopOf="@+id/textView_products"
+            app:layout_constraintEnd_toStartOf="@+id/imb_stop"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/imageButton_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_init_loc" />
-
-        <ImageButton
-            android:id="@+id/imageButton_transfers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_stop_loc" />
+        <ImageView
+            android:id="@+id/imb_stop"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_loc_stop"
+            app:layout_constraintBottom_toTopOf="@+id/textView_transfers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imb_init"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/imb_init"
+            android:layout_below="@+id/imb_init"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="INIT"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView_transfers"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imb_init" />
 
         <TextView
             android:id="@+id/textView_transfers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/imb_stop"
+            android:layout_below="@+id/imb_stop"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="STOP"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView_products"
+            app:layout_constraintTop_toBottomOf="@+id/imb_stop" />
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/container_options" />
+
+    <TextView
+        android:id="@+id/data_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="AREA"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/data_perimeter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/data_area"
+        android:text="PERIMETER"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
-</LinearLayout>
+</RelativeLayout>
 
